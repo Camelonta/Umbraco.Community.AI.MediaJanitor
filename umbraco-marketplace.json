@@ -1,0 +1,14 @@
+{
+    "$schema": "https://marketplace.umbraco.com/umbraco-marketplace-schema.json", 
+    "AuthorDetails": {
+      "Name": "Camelonta",
+      "ImageUrl": "https://github.com/gonziii.png"
+    },
+    "Category": "",
+    "Description": "",
+    "LicenseTypes": [ "Free" ],
+    "IssueTrackerUrl": "https://github.com/gonziii/Umbraco.Community.AI.MediaJanitor/issues",
+    "PackageType": "Package",
+    "Tags": [],
+    "Title": "AI.Media Janitor "
+  }

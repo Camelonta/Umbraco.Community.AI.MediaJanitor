@@ -1,0 +1,10 @@
+<Solution>
+  <Folder Name="/Solution Items/">
+    <File Path="../.github/CONTRIBUTING.md" />
+    <File Path="../.github/README.md" />
+    <File Path="../docs/README_nuget.md" />
+    <File Path="../umbraco-marketplace.json" />
+  </Folder>
+  <Project Path="AI.MediaJanitor.TestSite/AI.MediaJanitor.TestSite.csproj" />
+  <Project Path="AI.MediaJanitor/AI.MediaJanitor.csproj" />
+</Solution>

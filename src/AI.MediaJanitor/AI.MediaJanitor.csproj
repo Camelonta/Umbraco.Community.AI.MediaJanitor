@@ -1,0 +1,48 @@
+<Project Sdk="Microsoft.NET.Sdk.Razor">
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <StaticWebAssetBasePath>/</StaticWebAssetBasePath>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <Product>Umbraco.Community.AI.MediaJanitor</Product>
+    <PackageId>Umbraco.Community.AI.MediaJanitor</PackageId>
+    <Title>AI.Media Janitor </Title>
+    <Description>...</Description>
+    <PackageTags>umbraco;umbraco-marketplace</PackageTags>
+    <Authors>Camelonta</Authors>
+    <Copyright>$([System.DateTime]::UtcNow.ToString(`yyyy`)) © Camelonta</Copyright>
+    <PackageProjectUrl>https://github.com/gonziii/Umbraco.Community.AI.MediaJanitor</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/gonziii/Umbraco.Community.AI.MediaJanitor</RepositoryUrl>
+    <PackageReadmeFile>README_nuget.md</PackageReadmeFile>
+    <RepositoryType>git</RepositoryType>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageIcon></PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Umbraco.AI.Core" />
+    <PackageReference Include="Umbraco.Cms.Web.Website" />
+    <PackageReference Include="Umbraco.Cms.Web.Common" />
+    <PackageReference Include="Umbraco.Cms.Api.Common" />
+    <PackageReference Include="Umbraco.Cms.Api.Management" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <!-- Dont include the client folder as part of packaging nuget build -->
+    <Content Remove="Client\**" />
+
+    <!-- However make the Umbraco-package.json included for dotnet pack or nuget package and visible to the solution -->
+    <None Include="Client\public\umbraco-package.json" Pack="false" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Include="..\..\docs\README_nuget.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+  </ItemGroup>
+
+</Project>

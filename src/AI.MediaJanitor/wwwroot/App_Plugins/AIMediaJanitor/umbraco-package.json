@@ -1,0 +1,14 @@
+{
+  "id": "AI.MediaJanitor",
+  "name": "AI.MediaJanitor",
+  "version": "0.0.0",
+  "allowTelemetry": true,
+  "extensions": [
+    {
+      "name": "AIMedia Janitor Bundle",
+      "alias": "AI.MediaJanitor.Bundle",
+      "type": "bundle",
+      "js": "/App_Plugins/AIMediaJanitor/ai-media-janitor.js"
+    }
+  ]
+}
