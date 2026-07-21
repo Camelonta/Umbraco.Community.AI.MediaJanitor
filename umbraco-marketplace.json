@@ -28,6 +28,20 @@
       }
     ]
   },
+  "Screenshots": [
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/Camelonta/Umbraco.Community.AI.MediaJanitor/f5276adf2b9c52ca900692ca741c34e45cf9108d/docs/screenshots/screenshot1.png",
+      "Caption": "Shows the dashboard for AI Media Janitor in Media Section"
+    },
+    {
+      "ImageUrl": "https://raw.githubusercontent.com/Camelonta/Umbraco.Community.AI.MediaJanitor/f5276adf2b9c52ca900692ca741c34e45cf9108d/docs/screenshots/screenshot2.png",
+      "Caption": "Show when user has analyzed images"
+    },
+    {
+      "VideoUrl": "https://github.com/Camelonta/Umbraco.Community.AI.MediaJanitor/raw/f5276adf2b9c52ca900692ca741c34e45cf9108d/docs/screenshots/video.mp4",
+      "Caption": "Video show how it works to analyze images and apply suggestion"
+    }
+  ],
   "DocumentationUrl": "https://github.com/Camelonta/Umbraco.Community.AI.MediaJanitor#readme",
   "IssueTrackerUrl": "https://github.com/Camelonta/Umbraco.Community.AI.MediaJanitor/issues"
 }
