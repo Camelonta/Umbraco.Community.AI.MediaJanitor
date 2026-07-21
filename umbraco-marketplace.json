@@ -1,14 +1,19 @@
 {
-    "$schema": "https://marketplace.umbraco.com/umbraco-marketplace-schema.json", 
-    "AuthorDetails": {
-      "Name": "Camelonta",
-      "ImageUrl": "https://github.com/gonziii.png"
-    },
-    "Category": "",
-    "Description": "",
-    "LicenseTypes": [ "Free" ],
-    "IssueTrackerUrl": "https://github.com/gonziii/Umbraco.Community.AI.MediaJanitor/issues",
-    "PackageType": "Package",
-    "Tags": [],
-    "Title": "AI.Media Janitor "
-  }
+  "$schema": "https://marketplace.umbraco.com/umbraco-marketplace-schema.json",
+  "Title": "AI Media Janitor",
+  "Description": "An AI Media Assistant for the Umbraco Media section. Finds images with missing alt text, generic names, or in the wrong folder and suggests a better file name, alt text, caption, and folder — you review, edit, and apply.",
+  "Category": "Artificial Intelligence",
+  "AlternateCategory": "Editor Tools",
+  "PackageType": "Package",
+  "LicenseTypes": [ "Free" ],
+  "VersionDependencyMode": "SemVer",
+  "Tags": [ "Media", "Alt text", "Accessibility", "AI", "Automation" ],
+  "AuthorDetails": {
+    "Name": "Camelonta",
+    "Description": "Umbraco solutions from Camelonta.",
+    "Url": "https://camelonta.se",
+    "ImageUrl": "https://github.com/gonziii.png"
+  },
+  "DocumentationUrl": "https://github.com/gonziii/Umbraco.Community.AI.MediaJanitor#readme",
+  "IssueTrackerUrl": "https://github.com/gonziii/Umbraco.Community.AI.MediaJanitor/issues"
+}
