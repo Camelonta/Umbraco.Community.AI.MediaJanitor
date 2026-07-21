@@ -1,3 +1,5 @@
+using AI.MediaJanitor.Configuration;
+using AI.MediaJanitor.Services;
 using Asp.Versioning;
 using Microsoft.AspNetCore.Mvc.ApiExplorer;
 using Microsoft.AspNetCore.Mvc.Controllers;
@@ -16,6 +18,17 @@ namespace AI.MediaJanitor.Composers
     {
         public void Compose(IUmbracoBuilder builder)
         {
+            // Bind options from appsettings (Umbraco:CMS:AIMediaJanitor)
+            builder.Services
+                .AddOptions<MediaJanitorOptions>()
+                .BindConfiguration(MediaJanitorOptions.SectionName);
+
+            // Register Media Janitor services. The host site is responsible for
+            // registering an IChatClient (e.g. via Umbraco.AI.OpenAI / .Anthropic).
+            builder.Services.AddScoped<IMediaCandidateService, MediaCandidateService>();
+            builder.Services.AddScoped<IMediaFolderService, MediaFolderService>();
+            builder.Services.AddScoped<IMediaAnalysisService, MediaAnalysisService>();
+            builder.Services.AddScoped<IMediaSuggestionApplyService, MediaSuggestionApplyService>();
 
             builder.Services.AddSingleton<IOperationIdHandler, CustomOperationHandler>();
 
@@ -34,12 +47,12 @@ namespace AI.MediaJanitor.Composers
                 {
                     Title = "AIMedia Janitor Backoffice API",
                     Version = "1.0",
-                    // Contact = new OpenApiContact
-                    // {
-                    //     Name = "Some Developer",
-                    //     Email = "you@company.com",
-                    //     Url = new Uri("https://company.com")
-                    // }
+                    Contact = new OpenApiContact
+                    {
+                        Name = "Gonzalo Fuentes",
+                        Email = "developer@camelonta.se",
+                        Url = new Uri("https://camelonta.se")
+                    }
                 });
 
                 // Enable Umbraco authentication for the "Example" Swagger document

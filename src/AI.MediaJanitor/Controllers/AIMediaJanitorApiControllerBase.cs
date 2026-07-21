@@ -8,7 +8,7 @@ namespace AI.MediaJanitor.Controllers
 {
     [ApiController]
     [BackOfficeRoute("aimediajanitor/api/v{version:apiVersion}")]
-    [Authorize(Policy = AuthorizationPolicies.SectionAccessContent)]
+    [Authorize(Policy = AuthorizationPolicies.SectionAccessMedia)]
     [MapToApi(Constants.ApiName)]
     public class AIMediaJanitorApiControllerBase : ControllerBase
     {
