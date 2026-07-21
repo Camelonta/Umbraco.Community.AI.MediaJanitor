@@ -9,7 +9,7 @@
   <PropertyGroup>
     <Product>Umbraco.Community.AI.MediaJanitor</Product>
     <PackageId>Umbraco.Community.AI.MediaJanitor</PackageId>
-    <Version>1.0.1</Version>
+    <Version>1.0.2</Version>
     <Title>AI Media Janitor</Title>
     <Description>Adds an AI Media Assistant to the Umbraco (v17+) Media section. It finds images with missing alt text, generic file names, or in the wrong folder, and uses a vision-capable AI model (via Umbraco.AI) to suggest a better file name, alt text, caption, and folder. You review and edit every suggestion in a table, then apply the ones you want — nothing is changed automatically.</Description>
     <PackageTags>umbraco;umbraco-marketplace;ai;media;accessibility;alt-text</PackageTags>
