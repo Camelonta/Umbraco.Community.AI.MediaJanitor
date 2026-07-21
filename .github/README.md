@@ -2,7 +2,7 @@
 
 [![Downloads](https://img.shields.io/nuget/dt/Umbraco.Community.AI.MediaJanitor?color=cc9900)](https://www.nuget.org/packages/Umbraco.Community.AI.MediaJanitor/)
 [![NuGet](https://img.shields.io/nuget/vpre/Umbraco.Community.AI.MediaJanitor?color=0273B3)](https://www.nuget.org/packages/Umbraco.Community.AI.MediaJanitor)
-[![GitHub license](https://img.shields.io/github/license/gonziii/Umbraco.Community.AI.MediaJanitor?color=8AB803)](../LICENSE)
+[![GitHub license](https://img.shields.io/github/license/Camelonta/Umbraco.Community.AI.MediaJanitor?color=8AB803)](../LICENSE)
 
 **AI Media Janitor** is an Umbraco (v17+) package that adds an **AI Media Assistant** to the Media section. It finds images that need attention — missing alt text, generic file names, or sitting in the wrong folder — and uses a vision‑capable AI model (through [Umbraco.AI](https://marketplace.umbraco.com/package/umbraco.ai)) to suggest better metadata. You review every suggestion in a table and apply the ones you want.
 

@@ -14,8 +14,8 @@
     <PackageTags>umbraco;umbraco-marketplace;ai;media;accessibility;alt-text</PackageTags>
     <Authors>Camelonta</Authors>
     <Copyright>$([System.DateTime]::UtcNow.ToString(`yyyy`)) © Camelonta</Copyright>
-    <PackageProjectUrl>https://github.com/gonziii/Umbraco.Community.AI.MediaJanitor</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/gonziii/Umbraco.Community.AI.MediaJanitor</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/Camelonta/Umbraco.Community.AI.MediaJanitor</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/Camelonta/Umbraco.Community.AI.MediaJanitor</RepositoryUrl>
     <PackageReadmeFile>README_nuget.md</PackageReadmeFile>
     <RepositoryType>git</RepositoryType>
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
