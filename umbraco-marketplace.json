@@ -12,7 +12,21 @@
     "Name": "Camelonta",
     "Description": "Umbraco solutions from Camelonta.",
     "Url": "https://camelonta.se",
-    "ImageUrl": "https://github.com/Camelonta.png"
+    "ImageUrl": "https://github.com/Camelonta.png",
+    "Contributors": [
+      {
+        "Name": "Albin Eklundh"
+      },
+      {
+        "Name": "Martin Tarberg"
+      },
+      {
+        "Name": "Gonzalo Fuentes"
+      },
+      {
+        "Name": "Ludvig von Essen"
+      }
+    ]
   },
   "DocumentationUrl": "https://github.com/Camelonta/Umbraco.Community.AI.MediaJanitor#readme",
   "IssueTrackerUrl": "https://github.com/Camelonta/Umbraco.Community.AI.MediaJanitor/issues"
