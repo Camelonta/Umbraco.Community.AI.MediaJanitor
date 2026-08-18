@@ -7,22 +7,22 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Clean" Version="7.0.5" />
-    <PackageReference Include="Umbraco.AI" Version="17.1.1" />
-    <PackageReference Include="Umbraco.AI.Agent" Version="17.1.0" />
-    <PackageReference Include="Umbraco.AI.Agent.Copilot" Version="17.0.0" />
-    <PackageReference Include="Umbraco.AI.Anthropic" Version="17.0.0" />
-    <PackageReference Include="Umbraco.AI.Google" Version="17.0.0" />
-    <PackageReference Include="Umbraco.AI.MicrosoftFoundry" Version="17.0.0" />
-    <PackageReference Include="Umbraco.AI.OpenAI" Version="17.1.0" />
-    <PackageReference Include="Umbraco.AI.Prompt" Version="17.1.0" />
-    <PackageReference Include="Umbraco.Cms" Version="17.5.3" />
+    <PackageReference Include="Clean" Version="7.0.8" />
+    <PackageReference Include="Umbraco.AI" Version="17.3.1" />
+    <PackageReference Include="Umbraco.AI.Agent" Version="17.1.4" />
+    <PackageReference Include="Umbraco.AI.Agent.Copilot" Version="17.0.4" />
+    <PackageReference Include="Umbraco.AI.Anthropic" Version="17.1.0" />
+    <PackageReference Include="Umbraco.AI.Google" Version="17.0.3" />
+    <PackageReference Include="Umbraco.AI.MicrosoftFoundry" Version="17.0.3" />
+    <PackageReference Include="Umbraco.AI.OpenAI" Version="17.2.0" />
+    <PackageReference Include="Umbraco.AI.Prompt" Version="17.2.3" />
+    <PackageReference Include="Umbraco.Cms" Version="17.6.2" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Opt-in to app-local ICU to ensure consistent globalization APIs across different platforms -->
     <PackageReference Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" />
-    <PackageReference Include="uSync" Version="17.3.6" />
+    <PackageReference Include="uSync" Version="17.3.7" />
     <RuntimeHostConfigurationOption Include="System.Globalization.AppLocalIcu" Value="72.1.0.3" Condition="$(RuntimeIdentifier.StartsWith('linux')) or $(RuntimeIdentifier.StartsWith('win')) or ('$(RuntimeIdentifier)' == '' and !$([MSBuild]::IsOSPlatform('osx')))" />
   </ItemGroup>
 
