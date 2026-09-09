@@ -27,6 +27,7 @@ namespace AI.MediaJanitor.Composers
             // registering an IChatClient (e.g. via Umbraco.AI.OpenAI / .Anthropic).
             builder.Services.AddScoped<IMediaCandidateService, MediaCandidateService>();
             builder.Services.AddScoped<IMediaFolderService, MediaFolderService>();
+            builder.Services.AddScoped<IMediaLanguageService, MediaLanguageService>();
             builder.Services.AddScoped<IMediaAnalysisService, MediaAnalysisService>();
             builder.Services.AddScoped<IMediaSuggestionApplyService, MediaSuggestionApplyService>();
 

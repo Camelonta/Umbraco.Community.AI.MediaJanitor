@@ -215,7 +215,9 @@ public class MediaAnalysisService : IMediaAnalysisService
             {
                 var target = shownFolders[idx - 1];
                 if (target.Key == currentFolderKey)
+                {
                     return null; // already in the best folder
+                }
 
                 return new FolderSuggestion
                 {
@@ -246,13 +248,18 @@ public class MediaAnalysisService : IMediaAnalysisService
     private static string? SanitizeName(string? raw)
     {
         if (string.IsNullOrWhiteSpace(raw))
+        {
             return null;
+        }
         // Allow ASCII letters, digits, dashes; collapse whitespace to dashes.
         var lowered = raw.Trim().ToLowerInvariant().Replace(' ', '-');
         var filtered = new string(lowered.Where(c => c is (>= 'a' and <= 'z') or (>= '0' and <= '9') or '-').ToArray());
         // remove multiple dashes
         while (filtered.Contains("--"))
+        {
             filtered = filtered.Replace("--", "-");
+        }
+
         return string.IsNullOrEmpty(filtered) ? null : filtered.Trim('-');
     }
 
@@ -274,7 +281,8 @@ public class MediaAnalysisService : IMediaAnalysisService
         {
             try
             {
-                var imageCropper = JsonSerializer.Deserialize<ImageCropperValue>(raw);
+                var imageCropper = JsonSerializer.Deserialize<ImageCropperValue>(raw,
+                    new JsonSerializerOptions { PropertyNameCaseInsensitive = true });
                 path = imageCropper?.Src;
             }
             catch
@@ -287,7 +295,10 @@ public class MediaAnalysisService : IMediaAnalysisService
 
         if (string.IsNullOrWhiteSpace(path))
         {
-            throw new InvalidOperationException("Media item has no file path.");
+            throw new InvalidOperationException(
+                "This media item has no image file associated with it (its file reference is empty). " +
+                "This can happen when a media node was created or transferred without its underlying file — " +
+                "re-upload the image on this item to fix it.");
         }
 
         await using var stream = _mediaFileManager.FileSystem.OpenFile(path);
@@ -312,10 +323,15 @@ public class MediaAnalysisService : IMediaAnalysisService
         foreach (var alias in new[] { "altText", "alternativeText", "alt", "altTekst" })
         {
             if (!media.HasProperty(alias))
+            {
                 continue;
+            }
+
             var v = media.GetValue<string>(alias);
             if (!string.IsNullOrWhiteSpace(v))
+            {
                 return v;
+            }
         }
 
         return null;
@@ -332,9 +348,14 @@ public class MediaAnalysisService : IMediaAnalysisService
         {
             var firstNewline = t.IndexOf('\n');
             if (firstNewline >= 0)
+            {
                 t = t[(firstNewline + 1)..];
+            }
+
             if (t.EndsWith("```"))
+            {
                 t = t[..^3];
+            }
         }
 
         return t.Trim();

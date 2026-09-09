@@ -13,6 +13,7 @@ public class AIMediaJanitorMediaApiController : AIMediaJanitorApiControllerBase
 {
     private readonly IMediaCandidateService _candidates;
     private readonly IMediaFolderService _folders;
+    private readonly IMediaLanguageService _languages;
     private readonly IMediaAnalysisService _analysis;
     private readonly IMediaSuggestionApplyService _apply;
     private readonly IBackOfficeSecurityAccessor _security;
@@ -20,12 +21,14 @@ public class AIMediaJanitorMediaApiController : AIMediaJanitorApiControllerBase
     public AIMediaJanitorMediaApiController(
         IMediaCandidateService candidates,
         IMediaFolderService folders,
+        IMediaLanguageService languages,
         IMediaAnalysisService analysis,
         IMediaSuggestionApplyService apply,
         IBackOfficeSecurityAccessor security)
     {
         _candidates = candidates;
         _folders = folders;
+        _languages = languages;
         _analysis = analysis;
         _apply = apply;
         _security = security;
@@ -48,6 +51,11 @@ public class AIMediaJanitorMediaApiController : AIMediaJanitorApiControllerBase
     [ProducesResponseType<IEnumerable<MediaFolderInfo>>(StatusCodes.Status200OK)]
     public ActionResult<IEnumerable<MediaFolderInfo>> GetFolders(CancellationToken ct)
         => Ok(_folders.GetFolders(ct));
+
+    [HttpGet("languages")]
+    [ProducesResponseType<IEnumerable<MediaLanguageInfo>>(StatusCodes.Status200OK)]
+    public async Task<ActionResult<IEnumerable<MediaLanguageInfo>>> GetLanguages(CancellationToken ct)
+        => Ok(await _languages.GetLanguagesAsync(ct));
 
     [HttpPost("analyze")]
     [ProducesResponseType<MediaAnalysisSuggestion>(StatusCodes.Status200OK)]
