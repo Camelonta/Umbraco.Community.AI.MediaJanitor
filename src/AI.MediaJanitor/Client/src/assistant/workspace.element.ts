@@ -63,11 +63,27 @@ interface MediaFolder {
   displayPath: string;
 }
 
+interface MediaLanguage {
+  isoCode: string;
+  name: string;
+  isDefault: boolean;
+}
+
 // Sentinel values for the per-row folder override dropdown.
 const MOVE_NONE = "none";
 const MOVE_NEW = "new";
 
 const ANALYZE_CONCURRENCY = 2;
+
+// Controller error responses are `{ error: string }` (see AIMediaJanitorMediaApiController).
+// Fall back to a generic message when the body doesn't match that shape.
+function extractErrorMessage(error: unknown, fallback: string): string {
+  if (error && typeof error === "object" && "error" in error) {
+    const message = (error as { error?: unknown }).error;
+    if (typeof message === "string" && message.length > 0) return message;
+  }
+  return fallback;
+}
 
 @customElement("ai-media-assistant-workspace")
 export class AIMediaAssistantWorkspaceElement extends UmbElementMixin(LitElement) {
@@ -76,6 +92,9 @@ export class AIMediaAssistantWorkspaceElement extends UmbElementMixin(LitElement
   @state() private _loading = false;
   @state() private _candidates: MediaCandidate[] = [];
   @state() private _folders: MediaFolder[] = [];
+  @state() private _languages: MediaLanguage[] = [];
+  // BCP-47 code of the chosen response language, or "" to use the site default.
+  @state() private _language = "";
   @state() private _suggestions: Map<string, AnalysisSuggestion> = new Map();
   @state() private _busyKeys: Set<string> = new Set();
   // Per-row opt-in for the folder move, and the chosen target (folder key,
@@ -112,6 +131,7 @@ export class AIMediaAssistantWorkspaceElement extends UmbElementMixin(LitElement
     super.connectedCallback();
     void this.#loadCandidates();
     void this.#loadFolders();
+    void this.#loadLanguages();
   }
 
   override updated(changed: Map<string, unknown>): void {
@@ -135,6 +155,19 @@ export class AIMediaAssistantWorkspaceElement extends UmbElementMixin(LitElement
     } catch {
       // The override picker just falls back to "don't move / AI suggestion".
       this._folders = [];
+    }
+  }
+
+  async #loadLanguages() {
+    try {
+      const { data } = await client.get<MediaLanguage[]>({
+        url: `${API_BASE}/languages`,
+        security: BEARER_AUTH,
+      });
+      this._languages = data ?? [];
+    } catch {
+      // The dropdown just falls back to "Site default" only.
+      this._languages = [];
     }
   }
 
@@ -178,10 +211,10 @@ export class AIMediaAssistantWorkspaceElement extends UmbElementMixin(LitElement
       const { data, error, response } = await client.post<AnalysisSuggestion>({
         url: `${API_BASE}/analyze`,
         security: BEARER_AUTH,
-        body: { mediaKey: key },
+        body: { mediaKey: key, ...(this._language ? { language: this._language } : {}) },
       });
       if (error || !data) {
-        throw new Error(`Analyze failed (${response.status})`);
+        throw new Error(extractErrorMessage(error, `Analyze failed (${response.status})`));
       }
       const next = new Map(this._suggestions);
       next.set(key, data);
@@ -292,7 +325,7 @@ export class AIMediaAssistantWorkspaceElement extends UmbElementMixin(LitElement
         body,
       });
       if (error) {
-        throw new Error(`Apply failed (${response.status})`);
+        throw new Error(extractErrorMessage(error, `Apply failed (${response.status})`));
       }
       this.#notifications?.peek("positive", {
         data: {
@@ -442,6 +475,27 @@ export class AIMediaAssistantWorkspaceElement extends UmbElementMixin(LitElement
         this._poorName = (e.target as HTMLInputElement).checked;
       }}
             ></uui-toggle>
+            <div class="language-field">
+              <label for="response-language">Response language</label>
+              <select
+                id="response-language"
+                class="language-picker"
+                @change=${(e: Event) => {
+        this._language = (e.target as HTMLSelectElement).value;
+      }}
+              >
+                <option value="" ?selected=${this._language === ""}>
+                  Site default
+                </option>
+                ${this._languages.map(
+          (l) => html`
+                    <option value=${l.isoCode} ?selected=${l.isoCode === this._language}>
+                      ${l.name}${l.isDefault ? " (default)" : ""}
+                    </option>
+                  `,
+        )}
+              </select>
+            </div>
             <uui-button look="secondary" @click=${() => this.#loadCandidates()}>
               Refresh list
             </uui-button>
@@ -805,6 +859,19 @@ export class AIMediaAssistantWorkspaceElement extends UmbElementMixin(LitElement
       }
       .folder-picker {
         max-width: 220px;
+        padding: 4px;
+        border: 1px solid var(--uui-color-border);
+        border-radius: 4px;
+        background: var(--uui-color-surface);
+        color: var(--uui-color-text);
+        font-size: 0.85em;
+      }
+      .language-field {
+        display: flex;
+        align-items: center;
+        gap: var(--uui-size-space-2);
+      }
+      .language-picker {
         padding: 4px;
         border: 1px solid var(--uui-color-border);
         border-radius: 4px;
