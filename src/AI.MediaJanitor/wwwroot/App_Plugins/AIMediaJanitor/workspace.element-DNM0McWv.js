@@ -593,6 +593,7 @@ const Ye = () => ({
   };
 }, tt = (e) => ({
   ...e,
+  // The backoffice client's types come from a different hey-api version, so the shapes differ slightly.
   ...Me.getConfig()
 }), H = et(tt(ge({
   baseUrl: "https://localhost:44338"
@@ -1236,4 +1237,4 @@ export {
   g as AIMediaAssistantWorkspaceElement,
   ct as default
 };
-//# sourceMappingURL=workspace.element-BtnqBC5-.js.map
+//# sourceMappingURL=workspace.element-DNM0McWv.js.map

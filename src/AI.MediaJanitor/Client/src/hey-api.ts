@@ -12,5 +12,6 @@ import { umbHttpClient } from '@umbraco-cms/backoffice/http-client';
  */
 export const createClientConfig: CreateClientConfig = (config) => ({
 	...config,
-	...umbHttpClient.getConfig(),
+	// The backoffice client's types come from a different hey-api version, so the shapes differ slightly.
+	...(umbHttpClient.getConfig() as typeof config),
 });

@@ -9,8 +9,8 @@
     "generate-client": "node scripts/generate-openapi.js https://localhost:44338/umbraco/swagger/aimediajanitor/swagger.json"
   },
   "devDependencies": {
-    "@hey-api/openapi-ts": "^0.85.0",
-    "@umbraco-cms/backoffice": "^17.3.5",
+    "@hey-api/openapi-ts": "^0.99.0",
+    "@umbraco-cms/backoffice": "^18.2.0",
     "chalk": "^5.6.2",
     "cross-env": "^10.1.0",
     "node-fetch": "^3.3.2",

@@ -1,11 +1,11 @@
-﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Author>
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContentModels.Author>
 
 @using Clean.Core.Models.ViewModels
 @using ContentModels = Umbraco.Cms.Web.Common.PublishedModels
 
 @{
     Layout = "master.cshtml";
-    var authorListPage = Model.Parent as AuthorList;
+    var authorListPage = Model.Parent() as AuthorList;
 }
 
 
