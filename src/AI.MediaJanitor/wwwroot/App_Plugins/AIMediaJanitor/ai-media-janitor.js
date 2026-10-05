@@ -18,7 +18,7 @@ const s = "AI.MediaJanitor.Workspace.Assistant", t = "AI.MediaJanitor.MenuItem.A
     type: "dashboard",
     alias: s,
     name: "AI Media Assistant Dashboard",
-    js: () => import("./workspace.element-DNM0McWv.js"),
+    js: () => import("./workspace.element-DC_iLsjC.js"),
     weight: 100,
     meta: {
       label: "AI Media Assistant",

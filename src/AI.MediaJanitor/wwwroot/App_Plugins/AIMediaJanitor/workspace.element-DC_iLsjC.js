@@ -1,45 +1,45 @@
-import { LitElement as Ce, html as f, repeat as Ne, css as Oe, state as _, customElement as je } from "@umbraco-cms/backoffice/external/lit";
-import { UmbElementMixin as Pe } from "@umbraco-cms/backoffice/element-api";
-import { UMB_NOTIFICATION_CONTEXT as Fe } from "@umbraco-cms/backoffice/notification";
-import { umbHttpClient as Me } from "@umbraco-cms/backoffice/http-client";
-const Ie = {
+import { LitElement as Oe, html as p, repeat as je, css as Pe, state as m, customElement as Me } from "@umbraco-cms/backoffice/external/lit";
+import { UmbElementMixin as Fe } from "@umbraco-cms/backoffice/element-api";
+import { UMB_NOTIFICATION_CONTEXT as Ie } from "@umbraco-cms/backoffice/notification";
+import { umbHttpClient as Re } from "@umbraco-cms/backoffice/http-client";
+const qe = {
   bodySerializer: (e) => JSON.stringify(
     e,
     (t, s) => typeof s == "bigint" ? s.toString() : s
   )
-}, Re = ({
+}, We = ({
   onRequest: e,
   onSseError: t,
   onSseEvent: s,
   responseTransformer: i,
   responseValidator: a,
   sseDefaultRetryDelay: o,
-  sseMaxRetryAttempts: n,
-  sseMaxRetryDelay: r,
+  sseMaxRetryAttempts: r,
+  sseMaxRetryDelay: n,
   sseSleepFn: l,
   url: h,
-  ...c
+  ...u
 }) => {
-  let m;
-  const T = l ?? ((p) => new Promise((w) => setTimeout(w, p)));
+  let _;
+  const T = l ?? ((g) => new Promise((w) => setTimeout(w, g)));
   return { stream: async function* () {
-    let p = o ?? 3e3, w = 0;
-    const z = c.signal ?? new AbortController().signal;
+    let g = o ?? 3e3, w = 0;
+    const z = u.signal ?? new AbortController().signal;
     for (; !z.aborted; ) {
       w++;
-      const P = c.headers instanceof Headers ? c.headers : new Headers(c.headers);
-      m !== void 0 && P.set("Last-Event-ID", m);
+      const P = u.headers instanceof Headers ? u.headers : new Headers(u.headers);
+      _ !== void 0 && P.set("Last-Event-ID", _);
       try {
         const C = {
           redirect: "follow",
-          ...c,
-          body: c.serializedBody,
+          ...u,
+          body: u.serializedBody,
           headers: P,
           signal: z
         };
-        let x = new Request(h, C);
-        e && (x = await e(h, C));
-        const v = await (c.fetch ?? globalThis.fetch)(x);
+        let E = new Request(h, C);
+        e && (E = await e(h, C));
+        const v = await (u.fetch ?? globalThis.fetch)(E);
         if (!v.ok)
           throw new Error(
             `SSE failed: ${v.status} ${v.statusText}`
@@ -56,34 +56,34 @@ const Ie = {
         z.addEventListener("abort", ae);
         try {
           for (; ; ) {
-            const { done: Se, value: Ae } = await k.read();
-            if (Se) break;
-            J += Ae;
-            const re = J.split(`
+            const { done: Te, value: ze } = await k.read();
+            if (Te) break;
+            J += ze;
+            const ne = J.split(`
 
 `);
-            J = re.pop() ?? "";
-            for (const Te of re) {
-              const ze = Te.split(`
-`), B = [];
-              let ne;
-              for (const $ of ze)
+            J = ne.pop() ?? "";
+            for (const Ce of ne) {
+              const Ne = Ce.split(`
+`), K = [];
+              let re;
+              for (const $ of Ne)
                 if ($.startsWith("data:"))
-                  B.push($.replace(/^data:\s*/, ""));
+                  K.push($.replace(/^data:\s*/, ""));
                 else if ($.startsWith("event:"))
-                  ne = $.replace(/^event:\s*/, "");
+                  re = $.replace(/^event:\s*/, "");
                 else if ($.startsWith("id:"))
-                  m = $.replace(/^id:\s*/, "");
+                  _ = $.replace(/^id:\s*/, "");
                 else if ($.startsWith("retry:")) {
                   const le = Number.parseInt(
                     $.replace(/^retry:\s*/, ""),
                     10
                   );
-                  Number.isNaN(le) || (p = le);
+                  Number.isNaN(le) || (g = le);
                 }
               let N, oe = !1;
-              if (B.length) {
-                const $ = B.join(`
+              if (K.length) {
+                const $ = K.join(`
 `);
                 try {
                   N = JSON.parse($), oe = !0;
@@ -93,10 +93,10 @@ const Ie = {
               }
               oe && (a && await a(N), i && (N = await i(N))), s?.({
                 data: N,
-                event: ne,
-                id: m,
-                retry: p
-              }), B.length && (yield N);
+                event: re,
+                id: _,
+                retry: g
+              }), K.length && (yield N);
             }
           }
         } finally {
@@ -104,17 +104,17 @@ const Ie = {
         }
         break;
       } catch (C) {
-        if (t?.(C), n !== void 0 && w >= n)
+        if (t?.(C), r !== void 0 && w >= r)
           break;
-        const x = Math.min(
-          p * 2 ** (w - 1),
-          r ?? 3e4
+        const E = Math.min(
+          g * 2 ** (w - 1),
+          n ?? 3e4
         );
-        await T(x);
+        await T(E);
       }
     }
   }() };
-}, qe = (e) => {
+}, Be = (e) => {
   switch (e) {
     case "label":
       return ".";
@@ -125,7 +125,7 @@ const Ie = {
     default:
       return "&";
   }
-}, We = (e) => {
+}, De = (e) => {
   switch (e) {
     case "form":
       return ",";
@@ -136,7 +136,7 @@ const Ie = {
     default:
       return ",";
   }
-}, Be = (e) => {
+}, Ue = (e) => {
   switch (e) {
     case "label":
       return ".";
@@ -155,25 +155,25 @@ const Ie = {
   value: a
 }) => {
   if (!t) {
-    const r = (e ? a : a.map((l) => encodeURIComponent(l))).join(We(i));
+    const n = (e ? a : a.map((l) => encodeURIComponent(l))).join(De(i));
     switch (i) {
       case "label":
-        return `.${r}`;
+        return `.${n}`;
       case "matrix":
-        return `;${s}=${r}`;
+        return `;${s}=${n}`;
       case "simple":
-        return r;
+        return n;
       default:
-        return `${s}=${r}`;
+        return `${s}=${n}`;
     }
   }
-  const o = qe(i), n = a.map((r) => i === "label" || i === "simple" ? e ? r : encodeURIComponent(r) : K({
+  const o = Be(i), r = a.map((n) => i === "label" || i === "simple" ? e ? n : encodeURIComponent(n) : V({
     allowReserved: e,
     name: s,
-    value: r
+    value: n
   })).join(o);
-  return i === "label" || i === "matrix" ? o + n : n;
-}, K = ({
+  return i === "label" || i === "matrix" ? o + r : r;
+}, V = ({
   allowReserved: e,
   name: t,
   value: s
@@ -197,11 +197,11 @@ const Ie = {
     return o ? a.toISOString() : `${s}=${a.toISOString()}`;
   if (i !== "deepObject" && !t) {
     let l = [];
-    Object.entries(a).forEach(([c, m]) => {
+    Object.entries(a).forEach(([u, _]) => {
       l = [
         ...l,
-        c,
-        e ? m : encodeURIComponent(m)
+        u,
+        e ? _ : encodeURIComponent(_)
       ];
     });
     const h = l.join(",");
@@ -216,28 +216,28 @@ const Ie = {
         return h;
     }
   }
-  const n = Be(i), r = Object.entries(a).map(
-    ([l, h]) => K({
+  const r = Ue(i), n = Object.entries(a).map(
+    ([l, h]) => V({
       allowReserved: e,
       name: i === "deepObject" ? `${s}[${l}]` : l,
       value: h
     })
-  ).join(n);
-  return i === "label" || i === "matrix" ? n + r : r;
-}, Ue = /\{[^{}]+\}/g, De = ({ path: e, url: t }) => {
+  ).join(r);
+  return i === "label" || i === "matrix" ? r + n : n;
+}, Ke = /\{[^{}]+\}/g, He = ({ path: e, url: t }) => {
   let s = t;
-  const i = t.match(Ue);
+  const i = t.match(Ke);
   if (i)
     for (const a of i) {
-      let o = !1, n = a.substring(1, a.length - 1), r = "simple";
-      n.endsWith("*") && (o = !0, n = n.substring(0, n.length - 1)), n.startsWith(".") ? (n = n.substring(1), r = "label") : n.startsWith(";") && (n = n.substring(1), r = "matrix");
-      const l = e[n];
+      let o = !1, r = a.substring(1, a.length - 1), n = "simple";
+      r.endsWith("*") && (o = !0, r = r.substring(0, r.length - 1)), r.startsWith(".") ? (r = r.substring(1), n = "label") : r.startsWith(";") && (r = r.substring(1), n = "matrix");
+      const l = e[r];
       if (l == null)
         continue;
       if (Array.isArray(l)) {
         s = s.replace(
           a,
-          de({ explode: o, name: n, style: r, value: l })
+          de({ explode: o, name: r, style: n, value: l })
         );
         continue;
       }
@@ -246,31 +246,31 @@ const Ie = {
           a,
           he({
             explode: o,
-            name: n,
-            style: r,
+            name: r,
+            style: n,
             value: l,
             valueOnly: !0
           })
         );
         continue;
       }
-      if (r === "matrix") {
+      if (n === "matrix") {
         s = s.replace(
           a,
-          `;${K({
-            name: n,
+          `;${V({
+            name: r,
             value: l
           })}`
         );
         continue;
       }
       const h = encodeURIComponent(
-        r === "label" ? `.${l}` : l
+        n === "label" ? `.${l}` : l
       );
       s = s.replace(a, h);
     }
   return s;
-}, Ke = ({
+}, Le = ({
   baseUrl: e,
   path: t,
   query: s,
@@ -278,19 +278,19 @@ const Ie = {
   url: a
 }) => {
   const o = a.startsWith("/") ? a : `/${a}`;
-  let n = (e ?? "") + o;
-  t && (n = De({ path: t, url: n }));
-  let r = s ? i(s) : "";
-  return r.startsWith("?") && (r = r.substring(1)), r && (n += `?${r}`), n;
+  let r = (e ?? "") + o;
+  t && (r = He({ path: t, url: r }));
+  let n = s ? i(s) : "";
+  return n.startsWith("?") && (n = n.substring(1)), n && (r += `?${n}`), r;
 };
-function He(e) {
+function Ve(e) {
   const t = e.body !== void 0;
   if (t && e.bodySerializer)
     return "serializedBody" in e ? e.serializedBody !== void 0 && e.serializedBody !== "" ? e.serializedBody : null : e.body !== "" ? e.body : null;
   if (t)
     return e.body;
 }
-const Ve = async (e, t) => {
+const Je = async (e, t) => {
   const s = typeof t == "function" ? await t(e) : t;
   if (s)
     return e.scheme === "bearer" ? `Bearer ${s}` : e.scheme === "basic" ? `Basic ${btoa(s)}` : s;
@@ -301,40 +301,40 @@ const Ve = async (e, t) => {
 } = {}) => (a) => {
   const o = [];
   if (a && typeof a == "object")
-    for (const n in a) {
-      const r = a[n];
-      if (r != null)
-        if (Array.isArray(r)) {
+    for (const r in a) {
+      const n = a[r];
+      if (n != null)
+        if (Array.isArray(n)) {
           const l = de({
             allowReserved: e,
             explode: !0,
-            name: n,
+            name: r,
             style: "form",
-            value: r,
+            value: n,
             ...t
           });
           l && o.push(l);
-        } else if (typeof r == "object") {
+        } else if (typeof n == "object") {
           const l = he({
             allowReserved: e,
             explode: !0,
-            name: n,
+            name: r,
             style: "deepObject",
-            value: r,
+            value: n,
             ...s
           });
           l && o.push(l);
         } else {
-          const l = K({
+          const l = V({
             allowReserved: e,
-            name: n,
-            value: r
+            name: r,
+            value: n
           });
           l && o.push(l);
         }
     }
   return o.join("&");
-}, Le = (e) => {
+}, Ge = (e) => {
   if (!e)
     return "stream";
   const t = e.split(";")[0]?.trim();
@@ -350,14 +350,14 @@ const Ve = async (e, t) => {
     if (t.startsWith("text/"))
       return "text";
   }
-}, Je = (e, t) => t ? !!(e.headers.has(t) || e.query?.[t] || e.headers.get("Cookie")?.includes(`${t}=`)) : !1, Ge = async ({
+}, Qe = (e, t) => t ? !!(e.headers.has(t) || e.query?.[t] || e.headers.get("Cookie")?.includes(`${t}=`)) : !1, Ye = async ({
   security: e,
   ...t
 }) => {
   for (const s of e) {
-    if (Je(t, s.name))
+    if (Qe(t, s.name))
       continue;
-    const i = await Ve(s, t.auth);
+    const i = await Je(s, t.auth);
     if (!i)
       continue;
     const a = s.name ?? "Authorization";
@@ -373,16 +373,16 @@ const Ve = async (e, t) => {
         break;
     }
   }
-}, ce = (e) => Ke({
+}, ue = (e) => Le({
   baseUrl: e.baseUrl,
   path: e.path,
   query: e.query,
   querySerializer: typeof e.querySerializer == "function" ? e.querySerializer : pe(e.querySerializer),
   url: e.url
-}), ue = (e, t) => {
+}), ce = (e, t) => {
   const s = { ...e, ...t };
   return s.baseUrl?.endsWith("/") && (s.baseUrl = s.baseUrl.substring(0, s.baseUrl.length - 1)), s.headers = fe(e.headers, t.headers), s;
-}, Qe = (e) => {
+}, Xe = (e) => {
   const t = [];
   return e.forEach((s, i) => {
     t.push([i, s]);
@@ -392,13 +392,13 @@ const Ve = async (e, t) => {
   for (const s of e) {
     if (!s)
       continue;
-    const i = s instanceof Headers ? Qe(s) : Object.entries(s);
+    const i = s instanceof Headers ? Xe(s) : Object.entries(s);
     for (const [a, o] of i)
       if (o === null)
         t.delete(a);
       else if (Array.isArray(o))
-        for (const n of o)
-          t.append(a, n);
+        for (const r of o)
+          t.append(a, r);
       else o !== void 0 && t.set(
         a,
         typeof o == "object" ? JSON.stringify(o) : o
@@ -432,11 +432,11 @@ class G {
     return this.fns.push(t), this.fns.length - 1;
   }
 }
-const Ye = () => ({
+const Ze = () => ({
   error: new G(),
   request: new G(),
   response: new G()
-}), Xe = pe({
+}), et = pe({
   allowReserved: !1,
   array: {
     explode: !0,
@@ -446,68 +446,68 @@ const Ye = () => ({
     explode: !0,
     style: "deepObject"
   }
-}), Ze = {
+}), tt = {
   "Content-Type": "application/json"
 }, ge = (e = {}) => ({
-  ...Ie,
-  headers: Ze,
+  ...qe,
+  headers: tt,
   parseAs: "auto",
-  querySerializer: Xe,
+  querySerializer: et,
   ...e
-}), et = (e = {}) => {
-  let t = ue(ge(), e);
-  const s = () => ({ ...t }), i = (h) => (t = ue(t, h), s()), a = Ye(), o = async (h) => {
-    const c = {
+}), st = (e = {}) => {
+  let t = ce(ge(), e);
+  const s = () => ({ ...t }), i = (h) => (t = ce(t, h), s()), a = Ze(), o = async (h) => {
+    const u = {
       ...t,
       ...h,
       fetch: h.fetch ?? t.fetch ?? globalThis.fetch,
       headers: fe(t.headers, h.headers),
       serializedBody: void 0
     };
-    c.security && await Ge({
-      ...c,
-      security: c.security
-    }), c.requestValidator && await c.requestValidator(c), c.body !== void 0 && c.bodySerializer && (c.serializedBody = c.bodySerializer(c.body)), (c.body === void 0 || c.serializedBody === "") && c.headers.delete("Content-Type");
-    const m = ce(c);
-    return { opts: c, url: m };
-  }, n = async (h) => {
-    const { opts: c, url: m } = await o(h), T = {
+    u.security && await Ye({
+      ...u,
+      security: u.security
+    }), u.requestValidator && await u.requestValidator(u), u.body !== void 0 && u.bodySerializer && (u.serializedBody = u.bodySerializer(u.body)), (u.body === void 0 || u.serializedBody === "") && u.headers.delete("Content-Type");
+    const _ = ue(u);
+    return { opts: u, url: _ };
+  }, r = async (h) => {
+    const { opts: u, url: _ } = await o(h), T = {
       redirect: "follow",
-      ...c,
-      body: He(c)
+      ...u,
+      body: Ve(u)
     };
-    let S = new Request(m, T);
+    let S = new Request(_, T);
     for (const y of a.request.fns)
-      y && (S = await y(S, c));
-    const W = c.fetch;
-    let p = await W(S);
+      y && (S = await y(S, u));
+    const U = u.fetch;
+    let g = await U(S);
     for (const y of a.response.fns)
-      y && (p = await y(p, S, c));
+      y && (g = await y(g, S, u));
     const w = {
       request: S,
-      response: p
+      response: g
     };
-    if (p.ok) {
-      const y = (c.parseAs === "auto" ? Le(p.headers.get("Content-Type")) : c.parseAs) ?? "json";
-      if (p.status === 204 || p.headers.get("Content-Length") === "0") {
+    if (g.ok) {
+      const y = (u.parseAs === "auto" ? Ge(g.headers.get("Content-Type")) : u.parseAs) ?? "json";
+      if (g.status === 204 || g.headers.get("Content-Length") === "0") {
         let k;
         switch (y) {
           case "arrayBuffer":
           case "blob":
           case "text":
-            k = await p[y]();
+            k = await g[y]();
             break;
           case "formData":
             k = new FormData();
             break;
           case "stream":
-            k = p.body;
+            k = g.body;
             break;
           default:
             k = {};
             break;
         }
-        return c.responseStyle === "data" ? k : {
+        return u.responseStyle === "data" ? k : {
           data: k,
           ...w
         };
@@ -519,64 +519,64 @@ const Ye = () => ({
         case "formData":
         case "json":
         case "text":
-          v = await p[y]();
+          v = await g[y]();
           break;
         case "stream":
-          return c.responseStyle === "data" ? p.body : {
-            data: p.body,
+          return u.responseStyle === "data" ? g.body : {
+            data: g.body,
             ...w
           };
       }
-      return y === "json" && (c.responseValidator && await c.responseValidator(v), c.responseTransformer && (v = await c.responseTransformer(v))), c.responseStyle === "data" ? v : {
+      return y === "json" && (u.responseValidator && await u.responseValidator(v), u.responseTransformer && (v = await u.responseTransformer(v))), u.responseStyle === "data" ? v : {
         data: v,
         ...w
       };
     }
-    const z = await p.text();
+    const z = await g.text();
     let P;
     try {
       P = JSON.parse(z);
     } catch {
     }
     const C = P ?? z;
-    let x = C;
+    let E = C;
     for (const y of a.error.fns)
-      y && (x = await y(C, p, S, c));
-    if (x = x || {}, c.throwOnError)
-      throw x;
-    return c.responseStyle === "data" ? void 0 : {
-      error: x,
+      y && (E = await y(C, g, S, u));
+    if (E = E || {}, u.throwOnError)
+      throw E;
+    return u.responseStyle === "data" ? void 0 : {
+      error: E,
       ...w
     };
-  }, r = (h) => (c) => n({ ...c, method: h }), l = (h) => async (c) => {
-    const { opts: m, url: T } = await o(c);
-    return Re({
-      ...m,
-      body: m.body,
-      headers: m.headers,
+  }, n = (h) => (u) => r({ ...u, method: h }), l = (h) => async (u) => {
+    const { opts: _, url: T } = await o(u);
+    return We({
+      ..._,
+      body: _.body,
+      headers: _.headers,
       method: h,
-      onRequest: async (S, W) => {
-        let p = new Request(S, W);
+      onRequest: async (S, U) => {
+        let g = new Request(S, U);
         for (const w of a.request.fns)
-          w && (p = await w(p, m));
-        return p;
+          w && (g = await w(g, _));
+        return g;
       },
       url: T
     });
   };
   return {
-    buildUrl: ce,
-    connect: r("CONNECT"),
-    delete: r("DELETE"),
-    get: r("GET"),
+    buildUrl: ue,
+    connect: n("CONNECT"),
+    delete: n("DELETE"),
+    get: n("GET"),
     getConfig: s,
-    head: r("HEAD"),
+    head: n("HEAD"),
     interceptors: a,
-    options: r("OPTIONS"),
-    patch: r("PATCH"),
-    post: r("POST"),
-    put: r("PUT"),
-    request: n,
+    options: n("OPTIONS"),
+    patch: n("PATCH"),
+    post: n("POST"),
+    put: n("PUT"),
+    request: r,
     setConfig: i,
     sse: {
       connect: l("CONNECT"),
@@ -589,31 +589,38 @@ const Ye = () => ({
       put: l("PUT"),
       trace: l("TRACE")
     },
-    trace: r("TRACE")
+    trace: n("TRACE")
   };
-}, tt = (e) => ({
+}, it = (e) => ({
   ...e,
   // The backoffice client's types come from a different hey-api version, so the shapes differ slightly.
-  ...Me.getConfig()
-}), H = et(tt(ge({
+  ...Re.getConfig()
+}), W = st(it(ge({
   baseUrl: "https://localhost:44338"
 })));
-var st = Object.defineProperty, it = Object.getOwnPropertyDescriptor, be = (e) => {
+var at = Object.defineProperty, nt = Object.getOwnPropertyDescriptor, be = (e) => {
   throw TypeError(e);
 }, b = (e, t, s, i) => {
-  for (var a = i > 1 ? void 0 : i ? it(t, s) : t, o = e.length - 1, n; o >= 0; o--)
-    (n = e[o]) && (a = (i ? n(t, s, a) : n(a)) || a);
-  return i && a && st(t, s, a), a;
-}, ee = (e, t, s) => t.has(e) || be("Cannot " + s), O = (e, t, s) => (ee(e, t, "read from private field"), t.get(e)), Q = (e, t, s) => t.has(e) ? be("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, s), Y = (e, t, s, i) => (ee(e, t, "write to private field"), t.set(e, s), s), d = (e, t, s) => (ee(e, t, "access private method"), s), A, j, u, me, X, te, _e, ye, se, we, ve, F, M, E, I, Z, ie, U, $e, Ee, D, xe, ke;
-const V = "/umbraco/aimediajanitor/api/v1", L = [{ scheme: "bearer", type: "http" }], R = "none", q = "new", at = 2;
-let g = class extends Pe(Ce) {
+  for (var a = i > 1 ? void 0 : i ? nt(t, s) : t, o = e.length - 1, r; o >= 0; o--)
+    (r = e[o]) && (a = (i ? r(t, s, a) : r(a)) || a);
+  return i && a && at(t, s, a), a;
+}, ee = (e, t, s) => t.has(e) || be("Cannot " + s), O = (e, t, s) => (ee(e, t, "read from private field"), t.get(e)), Q = (e, t, s) => t.has(e) ? be("Cannot add the same private member more than once") : t instanceof WeakSet ? t.add(e) : t.set(e, s), Y = (e, t, s, i) => (ee(e, t, "write to private field"), t.set(e, s), s), d = (e, t, s) => (ee(e, t, "access private method"), s), A, j, c, me, _e, X, te, ye, we, se, ve, $e, M, F, x, I, Z, ie, H, xe, Ee, L, ke, Se;
+const B = "/umbraco/aimediajanitor/api/v1", D = [{ scheme: "bearer", type: "http" }], R = "none", q = "new", rt = 2;
+function Ae(e, t) {
+  if (e && typeof e == "object" && "error" in e) {
+    const s = e.error;
+    if (typeof s == "string" && s.length > 0) return s;
+  }
+  return t;
+}
+let f = class extends Fe(Oe) {
   constructor() {
-    super(), Q(this, u), this._missingAlt = !0, this._poorName = !0, this._loading = !1, this._candidates = [], this._folders = [], this._suggestions = /* @__PURE__ */ new Map(), this._busyKeys = /* @__PURE__ */ new Set(), this._moveEnabled = /* @__PURE__ */ new Set(), this._moveTarget = /* @__PURE__ */ new Map(), this._nameEdits = /* @__PURE__ */ new Map(), this._altEdits = /* @__PURE__ */ new Map(), this._captionEdits = /* @__PURE__ */ new Map(), this._newFolderEdits = /* @__PURE__ */ new Map(), this._dismissed = /* @__PURE__ */ new Set(), this._editing = /* @__PURE__ */ new Set(), this._bulkRunning = !1, this._bulkProgress = 0, this._bulkTotal = 0, Q(this, A), Q(this, j, null), this.consumeContext(Fe, (e) => {
+    super(), Q(this, c), this._missingAlt = !0, this._poorName = !0, this._loading = !1, this._candidates = [], this._folders = [], this._languages = [], this._language = "", this._suggestions = /* @__PURE__ */ new Map(), this._busyKeys = /* @__PURE__ */ new Set(), this._moveEnabled = /* @__PURE__ */ new Set(), this._moveTarget = /* @__PURE__ */ new Map(), this._nameEdits = /* @__PURE__ */ new Map(), this._altEdits = /* @__PURE__ */ new Map(), this._captionEdits = /* @__PURE__ */ new Map(), this._newFolderEdits = /* @__PURE__ */ new Map(), this._dismissed = /* @__PURE__ */ new Set(), this._editing = /* @__PURE__ */ new Set(), this._bulkRunning = !1, this._bulkProgress = 0, this._bulkTotal = 0, Q(this, A), Q(this, j, null), this.consumeContext(Ie, (e) => {
       Y(this, A, e);
     });
   }
   connectedCallback() {
-    super.connectedCallback(), d(this, u, X).call(this), d(this, u, me).call(this);
+    super.connectedCallback(), d(this, c, X).call(this), d(this, c, me).call(this), d(this, c, _e).call(this);
   }
   updated(e) {
     if (super.updated(e), !O(this, j)) return;
@@ -623,7 +630,7 @@ let g = class extends Pe(Ce) {
   // -- render ------------------------------------------------------------
   render() {
     const e = this._suggestions.size, t = this._candidates.length;
-    return f`
+    return p`
       <umb-body-layout headline="AI Media Assistant">
         <uui-box headline="Find images to review" class="filters">
           <p class="muted">
@@ -646,14 +653,35 @@ let g = class extends Pe(Ce) {
       this._poorName = s.target.checked;
     }}
             ></uui-toggle>
-            <uui-button look="secondary" @click=${() => d(this, u, X).call(this)}>
+            <div class="language-field">
+              <label for="response-language">Response language</label>
+              <select
+                id="response-language"
+                class="language-picker"
+                @change=${(s) => {
+      this._language = s.target.value;
+    }}
+              >
+                <option value="" ?selected=${this._language === ""}>
+                  Site default
+                </option>
+                ${this._languages.map(
+      (s) => p`
+                    <option value=${s.isoCode} ?selected=${s.isoCode === this._language}>
+                      ${s.name}${s.isDefault ? " (default)" : ""}
+                    </option>
+                  `
+    )}
+              </select>
+            </div>
+            <uui-button look="secondary" @click=${() => d(this, c, X).call(this)}>
               Refresh list
             </uui-button>
             <uui-button
               look="primary"
               color="positive"
               ?disabled=${this._bulkRunning || t === 0}
-              @click=${() => d(this, u, _e).call(this)}
+              @click=${() => d(this, c, ye).call(this)}
             >
               ${this._bulkRunning ? `Analysing ${this._bulkProgress} / ${this._bulkTotal}…` : `Analyse all images (${t})`}
             </uui-button>
@@ -662,37 +690,48 @@ let g = class extends Pe(Ce) {
             >
           </div>
 
-          ${this._bulkRunning ? f`<uui-loader-bar></uui-loader-bar>` : null}
-          ${this._error ? f`<p class="error">${this._error}</p>` : null}
+          ${this._bulkRunning ? p`<uui-loader-bar></uui-loader-bar>` : null}
+          ${this._error ? p`<p class="error">${this._error}</p>` : null}
         </uui-box>
 
-        ${this._loading ? f`<uui-loader></uui-loader>` : this._candidates.length === 0 ? f`<uui-box
+        ${this._loading ? p`<uui-loader></uui-loader>` : this._candidates.length === 0 ? p`<uui-box
                 ><p>No images need attention with the current filters.</p></uui-box
-              >` : d(this, u, $e).call(this)}
+              >` : d(this, c, xe).call(this)}
       </umb-body-layout>
     `;
   }
 };
 A = /* @__PURE__ */ new WeakMap();
 j = /* @__PURE__ */ new WeakMap();
-u = /* @__PURE__ */ new WeakSet();
+c = /* @__PURE__ */ new WeakSet();
 me = async function() {
   try {
-    const { data: e } = await H.get({
-      url: `${V}/folders`,
-      security: L
+    const { data: e } = await W.get({
+      url: `${B}/folders`,
+      security: D
     });
     this._folders = e ?? [];
   } catch {
     this._folders = [];
   }
 };
+_e = async function() {
+  try {
+    const { data: e } = await W.get({
+      url: `${B}/languages`,
+      security: D
+    });
+    this._languages = e ?? [];
+  } catch {
+    this._languages = [];
+  }
+};
 X = async function() {
   this._loading = !0, this._error = void 0;
   try {
-    const { data: e, error: t, response: s } = await H.get({
-      url: `${V}/candidates`,
-      security: L,
+    const { data: e, error: t, response: s } = await W.get({
+      url: `${B}/candidates`,
+      security: D,
       query: {
         missingAlt: this._missingAlt,
         poorName: this._poorName,
@@ -704,8 +743,8 @@ X = async function() {
       throw new Error(`Failed to load candidates (${s.status})`);
     this._candidates = e.items;
     const i = new Set(e.items.map((o) => o.key)), a = /* @__PURE__ */ new Map();
-    for (const [o, n] of this._suggestions)
-      i.has(o) && a.set(o, n);
+    for (const [o, r] of this._suggestions)
+      i.has(o) && a.set(o, r);
     this._suggestions = a;
   } catch (e) {
     this._error = e.message;
@@ -717,17 +756,17 @@ te = async function(e) {
   const t = new Set(this._busyKeys);
   t.add(e), this._busyKeys = t;
   try {
-    const { data: s, error: i, response: a } = await H.post({
-      url: `${V}/analyze`,
-      security: L,
-      body: { mediaKey: e }
+    const { data: s, error: i, response: a } = await W.post({
+      url: `${B}/analyze`,
+      security: D,
+      body: { mediaKey: e, ...this._language ? { language: this._language } : {} }
     });
     if (i || !s)
-      throw new Error(`Analyze failed (${a.status})`);
+      throw new Error(Ae(i, `Analyze failed (${a.status})`));
     const o = new Map(this._suggestions);
     o.set(e, s), this._suggestions = o;
-    const n = new Map(this._moveTarget);
-    n.set(e, d(this, u, se).call(this, s)), this._moveTarget = n, this._nameEdits = d(this, u, F).call(this, this._nameEdits, e, s.name), this._altEdits = d(this, u, F).call(this, this._altEdits, e, s.altText), this._captionEdits = d(this, u, F).call(this, this._captionEdits, e, s.caption), this._newFolderEdits = d(this, u, F).call(this, this._newFolderEdits, e, s.folder?.newFolderName), d(this, u, ie).call(this, e);
+    const r = new Map(this._moveTarget);
+    r.set(e, d(this, c, se).call(this, s)), this._moveTarget = r, this._nameEdits = d(this, c, M).call(this, this._nameEdits, e, s.name), this._altEdits = d(this, c, M).call(this, this._altEdits, e, s.altText), this._captionEdits = d(this, c, M).call(this, this._captionEdits, e, s.caption), this._newFolderEdits = d(this, c, M).call(this, this._newFolderEdits, e, s.folder?.newFolderName), d(this, c, ie).call(this, e);
   } catch (s) {
     O(this, A)?.peek("danger", {
       data: { headline: "Analyze failed", message: s.message }
@@ -737,14 +776,14 @@ te = async function(e) {
     s.delete(e), this._busyKeys = s;
   }
 };
-_e = async function() {
+ye = async function() {
   if (this._candidates.length === 0 || this._bulkRunning) return;
   this._bulkRunning = !0, this._bulkProgress = 0, this._bulkTotal = this._candidates.length;
-  const e = [...this._candidates], t = Array.from({ length: at }, async () => {
+  const e = [...this._candidates], t = Array.from({ length: rt }, async () => {
     for (; e.length > 0; ) {
       const s = e.shift();
       if (!s) return;
-      await d(this, u, te).call(this, s.key), this._bulkProgress = this._bulkProgress + 1;
+      await d(this, c, te).call(this, s.key), this._bulkProgress = this._bulkProgress + 1;
     }
   });
   try {
@@ -758,20 +797,20 @@ _e = async function() {
     this._bulkRunning = !1;
   }
 };
-ye = async function(e) {
+we = async function(e) {
   const t = this._suggestions.get(e);
   if (!t) return;
-  const s = { mediaKey: e }, i = d(this, u, U).call(this, "name", e, this._nameEdits, t.name);
+  const s = { mediaKey: e }, i = d(this, c, H).call(this, "name", e, this._nameEdits, t.name);
   i && (s.name = i);
-  const a = d(this, u, U).call(this, "alt", e, this._altEdits, t.altText);
+  const a = d(this, c, H).call(this, "alt", e, this._altEdits, t.altText);
   a && (s.altText = a);
-  const o = d(this, u, U).call(this, "caption", e, this._captionEdits, t.caption);
+  const o = d(this, c, H).call(this, "caption", e, this._captionEdits, t.caption);
   if (o && (s.caption = o), this._moveEnabled.has(e)) {
-    const r = this._moveTarget.get(e) ?? R;
-    if (r === q) {
+    const n = this._moveTarget.get(e) ?? R;
+    if (n === q) {
       const l = (this._newFolderEdits.get(e) ?? t.folder?.newFolderName ?? "").trim();
       l && (s.newFolderName = l);
-    } else r !== R && (s.targetFolderKey = r);
+    } else n !== R && (s.targetFolderKey = n);
   }
   if (Object.keys(s).length === 1) {
     O(this, A)?.peek("warning", {
@@ -779,16 +818,16 @@ ye = async function(e) {
     });
     return;
   }
-  const n = new Set(this._busyKeys);
-  n.add(e), this._busyKeys = n;
+  const r = new Set(this._busyKeys);
+  r.add(e), this._busyKeys = r;
   try {
-    const { error: r, response: l } = await H.post({
-      url: `${V}/apply`,
-      security: L,
+    const { error: n, response: l } = await W.post({
+      url: `${B}/apply`,
+      security: D,
       body: s
     });
-    if (r)
-      throw new Error(`Apply failed (${l.status})`);
+    if (n)
+      throw new Error(Ae(n, `Apply failed (${l.status})`));
     O(this, A)?.peek("positive", {
       data: {
         headline: "Applied",
@@ -797,58 +836,58 @@ ye = async function(e) {
     }), this._candidates = this._candidates.filter((T) => T.key !== e);
     const h = new Map(this._suggestions);
     h.delete(e), this._suggestions = h;
-    const c = new Set(this._moveEnabled);
-    c.delete(e), this._moveEnabled = c;
-    const m = new Map(this._moveTarget);
-    m.delete(e), this._moveTarget = m, this._nameEdits = d(this, u, M).call(this, this._nameEdits, e), this._altEdits = d(this, u, M).call(this, this._altEdits, e), this._captionEdits = d(this, u, M).call(this, this._captionEdits, e), this._newFolderEdits = d(this, u, M).call(this, this._newFolderEdits, e), d(this, u, ie).call(this, e);
-  } catch (r) {
+    const u = new Set(this._moveEnabled);
+    u.delete(e), this._moveEnabled = u;
+    const _ = new Map(this._moveTarget);
+    _.delete(e), this._moveTarget = _, this._nameEdits = d(this, c, F).call(this, this._nameEdits, e), this._altEdits = d(this, c, F).call(this, this._altEdits, e), this._captionEdits = d(this, c, F).call(this, this._captionEdits, e), this._newFolderEdits = d(this, c, F).call(this, this._newFolderEdits, e), d(this, c, ie).call(this, e);
+  } catch (n) {
     O(this, A)?.peek("danger", {
-      data: { headline: "Apply failed", message: r.message }
+      data: { headline: "Apply failed", message: n.message }
     });
   } finally {
-    const r = new Set(this._busyKeys);
-    r.delete(e), this._busyKeys = r;
+    const n = new Set(this._busyKeys);
+    n.delete(e), this._busyKeys = n;
   }
 };
 se = function(e) {
   return e.folder?.targetFolderKey ? e.folder.targetFolderKey : e.folder?.newFolderName ? q : R;
 };
-we = function(e, t) {
+ve = function(e, t) {
   const s = new Set(this._moveEnabled);
   t ? s.add(e) : s.delete(e), this._moveEnabled = s;
 };
-ve = function(e, t) {
+$e = function(e, t) {
   const s = new Map(this._moveTarget);
   s.set(e, t), this._moveTarget = s;
 };
-F = function(e, t, s) {
+M = function(e, t, s) {
   const i = new Map(e);
   return s ? i.set(t, s) : i.delete(t), i;
 };
-M = function(e, t) {
+F = function(e, t) {
   const s = new Map(e);
   return s.delete(t), s;
 };
-E = function(e, t) {
+x = function(e, t) {
   return `${e}:${t}`;
 };
 I = function(e, t, s) {
   const i = new Set(this._editing);
-  s ? (i.add(d(this, u, E).call(this, e, t)), Y(this, j, d(this, u, E).call(this, e, t))) : i.delete(d(this, u, E).call(this, e, t)), this._editing = i;
+  s ? (i.add(d(this, c, x).call(this, e, t)), Y(this, j, d(this, c, x).call(this, e, t))) : i.delete(d(this, c, x).call(this, e, t)), this._editing = i;
 };
 Z = function(e, t, s) {
   const i = new Set(this._dismissed);
-  s ? i.add(d(this, u, E).call(this, e, t)) : i.delete(d(this, u, E).call(this, e, t)), this._dismissed = i, s && d(this, u, I).call(this, e, t, !1);
+  s ? i.add(d(this, c, x).call(this, e, t)) : i.delete(d(this, c, x).call(this, e, t)), this._dismissed = i, s && d(this, c, I).call(this, e, t, !1);
 };
 ie = function(e) {
   const t = `:${e}`;
   this._dismissed = new Set([...this._dismissed].filter((s) => !s.endsWith(t))), this._editing = new Set([...this._editing].filter((s) => !s.endsWith(t)));
 };
-U = function(e, t, s, i) {
-  return this._dismissed.has(d(this, u, E).call(this, e, t)) ? "" : (s.get(t) ?? i ?? "").trim();
+H = function(e, t, s, i) {
+  return this._dismissed.has(d(this, c, x).call(this, e, t)) ? "" : (s.get(t) ?? i ?? "").trim();
 };
-$e = function() {
-  return f`
+xe = function() {
+  return p`
       <uui-box headline="Media files that need attention">
         <div class="table-scroll">
         <uui-table>
@@ -863,7 +902,7 @@ $e = function() {
             <uui-table-head-cell>Confidence</uui-table-head-cell>
             <uui-table-head-cell>Actions</uui-table-head-cell>
           </uui-table-head>
-          ${Ne(this._candidates, (e) => e.key, (e) => d(this, u, Ee).call(this, e))}
+          ${je(this._candidates, (e) => e.key, (e) => d(this, c, Ee).call(this, e))}
         </uui-table>
         </div>
       </uui-box>
@@ -871,7 +910,7 @@ $e = function() {
 };
 Ee = function(e) {
   const t = this._suggestions.get(e.key), s = this._busyKeys.has(e.key);
-  return f`
+  return p`
       <uui-table-row class=${s ? "row-busy" : ""}>
         <uui-table-cell>
           <div class="file-cell">
@@ -883,8 +922,8 @@ Ee = function(e) {
         </uui-table-cell>
         <uui-table-cell>
           <div class="tags">
-            ${e.missingAlt ? f`<uui-tag color="danger" look="primary" size="s">no alt</uui-tag>` : null}
-            ${e.poorName ? f`<uui-tag color="warning" look="primary" size="s"
+            ${e.missingAlt ? p`<uui-tag color="danger" look="primary" size="s">no alt</uui-tag>` : null}
+            ${e.poorName ? p`<uui-tag color="warning" look="primary" size="s"
                   >generic name</uui-tag
                 >` : null}
           </div>
@@ -895,21 +934,21 @@ Ee = function(e) {
           >
         </uui-table-cell>
         <uui-table-cell>
-          ${d(this, u, D).call(this, "name", e.key, this._nameEdits, t?.name, (i) => this._nameEdits = i, "suggested name")}
+          ${d(this, c, L).call(this, "name", e.key, this._nameEdits, t?.name, (i) => this._nameEdits = i, "suggested name")}
         </uui-table-cell>
         <uui-table-cell>
-          ${d(this, u, D).call(this, "alt", e.key, this._altEdits, t?.altText, (i) => this._altEdits = i, "suggested alt text")}
+          ${d(this, c, L).call(this, "alt", e.key, this._altEdits, t?.altText, (i) => this._altEdits = i, "suggested alt text")}
         </uui-table-cell>
         <uui-table-cell>
-          ${d(this, u, D).call(this, "caption", e.key, this._captionEdits, t?.caption, (i) => this._captionEdits = i, "caption")}
+          ${d(this, c, L).call(this, "caption", e.key, this._captionEdits, t?.caption, (i) => this._captionEdits = i, "caption")}
         </uui-table-cell>
         <uui-table-cell>
-          ${d(this, u, xe).call(this, e, t)}
+          ${d(this, c, ke).call(this, e, t)}
         </uui-table-cell>
         <uui-table-cell>
-          ${t ? t.uncertain ? f`<uui-tag color="warning" size="s" title=${t.note ?? ""}
+          ${t ? t.uncertain ? p`<uui-tag color="warning" size="s" title=${t.note ?? ""}
                   >uncertain</uui-tag
-                >` : f`<uui-tag color="positive" size="s">ok</uui-tag>` : f`<span class="muted">—</span>`}
+                >` : p`<uui-tag color="positive" size="s">ok</uui-tag>` : p`<span class="muted">—</span>`}
         </uui-table-cell>
         <uui-table-cell>
           <div class="actions">
@@ -917,7 +956,7 @@ Ee = function(e) {
               size="s"
               look="secondary"
               ?disabled=${s || this._bulkRunning}
-              @click=${() => d(this, u, te).call(this, e.key)}
+              @click=${() => d(this, c, te).call(this, e.key)}
             >
               ${t ? "Re-analyse" : "Analyse"}
             </uui-button>
@@ -926,43 +965,43 @@ Ee = function(e) {
               look="primary"
               color="positive"
               ?disabled=${s || !t}
-              @click=${() => d(this, u, ye).call(this, e.key)}
+              @click=${() => d(this, c, we).call(this, e.key)}
             >
               Apply
             </uui-button>
-            ${s ? f`<uui-loader-circle></uui-loader-circle>` : null}
+            ${s ? p`<uui-loader-circle></uui-loader-circle>` : null}
           </div>
         </uui-table-cell>
       </uui-table-row>
     `;
 };
-D = function(e, t, s, i, a, o) {
-  const n = s.get(t) ?? i ?? "";
-  return !n && !this._editing.has(d(this, u, E).call(this, e, t)) ? f`<span class="muted">—</span>` : this._dismissed.has(d(this, u, E).call(this, e, t)) ? f`
+L = function(e, t, s, i, a, o) {
+  const r = s.get(t) ?? i ?? "";
+  return !r && !this._editing.has(d(this, c, x).call(this, e, t)) ? p`<span class="muted">—</span>` : this._dismissed.has(d(this, c, x).call(this, e, t)) ? p`
         <span class="suggestion-chip suggestion-chip--removed">
           <span class="suggestion-chip__text">Removed</span>
           <uui-button
             class="suggestion-chip__btn suggestion-chip__btn--muted"
             compact
             label="Restore ${o}"
-            @click=${() => d(this, u, Z).call(this, e, t, !1)}
+            @click=${() => d(this, c, Z).call(this, e, t, !1)}
           >
             <umb-icon name="icon-undo"></umb-icon>
           </uui-button>
         </span>
-      ` : this._editing.has(d(this, u, E).call(this, e, t)) ? f`
+      ` : this._editing.has(d(this, c, x).call(this, e, t)) ? p`
         <span class="suggestion-edit">
           <uui-input
             class="cell-input"
             label=${o}
-            data-edit-key=${d(this, u, E).call(this, e, t)}
-            .value=${n}
-            @input=${(r) => {
+            data-edit-key=${d(this, c, x).call(this, e, t)}
+            .value=${r}
+            @input=${(n) => {
     const l = new Map(s);
-    l.set(t, r.target.value), a(l);
+    l.set(t, n.target.value), a(l);
   }}
-            @keydown=${(r) => {
-    r.key === "Enter" && d(this, u, I).call(this, e, t, !1);
+            @keydown=${(n) => {
+    n.key === "Enter" && d(this, c, I).call(this, e, t, !1);
   }}
           ></uui-input>
           <uui-button
@@ -970,19 +1009,19 @@ D = function(e, t, s, i, a, o) {
             color="positive"
             compact
             label="Done editing ${o}"
-            @click=${() => d(this, u, I).call(this, e, t, !1)}
+            @click=${() => d(this, c, I).call(this, e, t, !1)}
           >
             <umb-icon name="icon-check"></umb-icon>
           </uui-button>
         </span>
-      ` : f`
+      ` : p`
       <span class="suggestion-chip">
-        <span class="suggestion-chip__text" title=${n}>${n}</span>
+        <span class="suggestion-chip__text" title=${r}>${r}</span>
         <uui-button
           class="suggestion-chip__btn"
           compact
           label="Edit ${o}"
-          @click=${() => d(this, u, I).call(this, e, t, !0)}
+          @click=${() => d(this, c, I).call(this, e, t, !0)}
         >
           <umb-icon name="icon-edit"></umb-icon>
         </uui-button>
@@ -990,24 +1029,24 @@ D = function(e, t, s, i, a, o) {
           class="suggestion-chip__btn"
           compact
           label="Remove ${o}"
-          @click=${() => d(this, u, Z).call(this, e, t, !0)}
+          @click=${() => d(this, c, Z).call(this, e, t, !0)}
         >
           <umb-icon name="icon-wrong"></umb-icon>
         </uui-button>
       </span>
     `;
 };
-xe = function(e, t) {
+ke = function(e, t) {
   const s = t?.currentFolderPath ?? e.folderPath ?? "/";
   if (!t || !t.folder?.isChange)
-    return f`
+    return p`
         <div class="folder-cell">
           <span class="muted small">${s}</span>
-          ${t ? f`<span class="muted small">no move suggested</span>` : null}
+          ${t ? p`<span class="muted small">no move suggested</span>` : null}
         </div>
       `;
-  const i = t.folder, a = this._newFolderEdits.get(e.key) ?? i.newFolderName, o = i.newFolderName ? `＋ new: ${a}` : i.targetPath ?? "", n = this._moveEnabled.has(e.key), r = this._moveTarget.get(e.key) ?? d(this, u, se).call(this, t);
-  return f`
+  const i = t.folder, a = this._newFolderEdits.get(e.key) ?? i.newFolderName, o = i.newFolderName ? `＋ new: ${a}` : i.targetPath ?? "", r = this._moveEnabled.has(e.key), n = this._moveTarget.get(e.key) ?? d(this, c, se).call(this, t);
+  return p`
       <div class="folder-cell">
         <span class="muted small">${s}</span>
         <span class="folder-arrow">
@@ -1018,11 +1057,11 @@ xe = function(e, t) {
         </span>
         <uui-toggle
           label="Move"
-          ?checked=${n}
-          @change=${(l) => d(this, u, we).call(this, e.key, l.target.checked)}
+          ?checked=${r}
+          @change=${(l) => d(this, c, ve).call(this, e.key, l.target.checked)}
         ></uui-toggle>
-        ${n ? d(this, u, ke).call(this, e.key, i, r) : null}
-        ${n && r === q ? f`<uui-input
+        ${r ? d(this, c, Se).call(this, e.key, i, n) : null}
+        ${r && n === q ? p`<uui-input
               class="cell-input"
               label="New folder name"
               .value=${a ?? ""}
@@ -1034,20 +1073,20 @@ xe = function(e, t) {
       </div>
     `;
 };
-ke = function(e, t, s) {
-  return f`
+Se = function(e, t, s) {
+  return p`
       <select
         class="folder-picker"
-        @change=${(i) => d(this, u, ve).call(this, e, i.target.value)}
+        @change=${(i) => d(this, c, $e).call(this, e, i.target.value)}
       >
         <option value=${R} ?selected=${s === R}>
           Don't move
         </option>
-        ${t.newFolderName ? f`<option value=${q} ?selected=${s === q}>
+        ${t.newFolderName ? p`<option value=${q} ?selected=${s === q}>
               Create new folder…
             </option>` : null}
         ${this._folders.map(
-    (i) => f`
+    (i) => p`
             <option value=${i.key} ?selected=${s === i.key}>
               ${i.displayPath}
             </option>
@@ -1056,8 +1095,8 @@ ke = function(e, t, s) {
       </select>
     `;
 };
-g.styles = [
-  Oe`
+f.styles = [
+  Pe`
       :host {
         display: block;
       }
@@ -1093,6 +1132,19 @@ g.styles = [
       }
       .folder-picker {
         max-width: 220px;
+        padding: 4px;
+        border: 1px solid var(--uui-color-border);
+        border-radius: 4px;
+        background: var(--uui-color-surface);
+        color: var(--uui-color-text);
+        font-size: 0.85em;
+      }
+      .language-field {
+        display: flex;
+        align-items: center;
+        gap: var(--uui-size-space-2);
+      }
+      .language-picker {
         padding: 4px;
         border: 1px solid var(--uui-color-border);
         border-radius: 4px;
@@ -1173,68 +1225,74 @@ g.styles = [
     `
 ];
 b([
-  _()
-], g.prototype, "_missingAlt", 2);
+  m()
+], f.prototype, "_missingAlt", 2);
 b([
-  _()
-], g.prototype, "_poorName", 2);
+  m()
+], f.prototype, "_poorName", 2);
 b([
-  _()
-], g.prototype, "_loading", 2);
+  m()
+], f.prototype, "_loading", 2);
 b([
-  _()
-], g.prototype, "_candidates", 2);
+  m()
+], f.prototype, "_candidates", 2);
 b([
-  _()
-], g.prototype, "_folders", 2);
+  m()
+], f.prototype, "_folders", 2);
 b([
-  _()
-], g.prototype, "_suggestions", 2);
+  m()
+], f.prototype, "_languages", 2);
 b([
-  _()
-], g.prototype, "_busyKeys", 2);
+  m()
+], f.prototype, "_language", 2);
 b([
-  _()
-], g.prototype, "_moveEnabled", 2);
+  m()
+], f.prototype, "_suggestions", 2);
 b([
-  _()
-], g.prototype, "_moveTarget", 2);
+  m()
+], f.prototype, "_busyKeys", 2);
 b([
-  _()
-], g.prototype, "_nameEdits", 2);
+  m()
+], f.prototype, "_moveEnabled", 2);
 b([
-  _()
-], g.prototype, "_altEdits", 2);
+  m()
+], f.prototype, "_moveTarget", 2);
 b([
-  _()
-], g.prototype, "_captionEdits", 2);
+  m()
+], f.prototype, "_nameEdits", 2);
 b([
-  _()
-], g.prototype, "_newFolderEdits", 2);
+  m()
+], f.prototype, "_altEdits", 2);
 b([
-  _()
-], g.prototype, "_dismissed", 2);
+  m()
+], f.prototype, "_captionEdits", 2);
 b([
-  _()
-], g.prototype, "_editing", 2);
+  m()
+], f.prototype, "_newFolderEdits", 2);
 b([
-  _()
-], g.prototype, "_bulkRunning", 2);
+  m()
+], f.prototype, "_dismissed", 2);
 b([
-  _()
-], g.prototype, "_bulkProgress", 2);
+  m()
+], f.prototype, "_editing", 2);
 b([
-  _()
-], g.prototype, "_bulkTotal", 2);
+  m()
+], f.prototype, "_bulkRunning", 2);
 b([
-  _()
-], g.prototype, "_error", 2);
-g = b([
-  je("ai-media-assistant-workspace")
-], g);
-const ct = g;
+  m()
+], f.prototype, "_bulkProgress", 2);
+b([
+  m()
+], f.prototype, "_bulkTotal", 2);
+b([
+  m()
+], f.prototype, "_error", 2);
+f = b([
+  Me("ai-media-assistant-workspace")
+], f);
+const dt = f;
 export {
-  g as AIMediaAssistantWorkspaceElement,
-  ct as default
+  f as AIMediaAssistantWorkspaceElement,
+  dt as default
 };
-//# sourceMappingURL=workspace.element-DNM0McWv.js.map
+//# sourceMappingURL=workspace.element-DC_iLsjC.js.map
