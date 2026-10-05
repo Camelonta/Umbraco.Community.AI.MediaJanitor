@@ -8,14 +8,14 @@
 
   <ItemGroup>
     <PackageReference Include="Clean" Version="8.0.1" />
-    <PackageReference Include="Umbraco.AI" Version="18.3.5" />
-    <PackageReference Include="Umbraco.AI.Agent" Version="18.1.7" />
-    <PackageReference Include="Umbraco.AI.Agent.Copilot" Version="18.0.6" />
-    <PackageReference Include="Umbraco.AI.Anthropic" Version="18.1.1" />
+    <PackageReference Include="Umbraco.AI" Version="18.5.0" />
+    <PackageReference Include="Umbraco.AI.Agent" Version="18.3.0" />
+    <PackageReference Include="Umbraco.AI.Agent.Copilot" Version="18.1.1" />
+    <PackageReference Include="Umbraco.AI.Anthropic" Version="18.1.2" />
     <PackageReference Include="Umbraco.AI.Google" Version="18.0.3" />
     <PackageReference Include="Umbraco.AI.MicrosoftFoundry" Version="18.0.3" />
-    <PackageReference Include="Umbraco.AI.OpenAI" Version="18.2.1" />
-    <PackageReference Include="Umbraco.AI.Prompt" Version="18.2.3" />
+    <PackageReference Include="Umbraco.AI.OpenAI" Version="18.3.0" />
+    <PackageReference Include="Umbraco.AI.Prompt" Version="18.3.0" />
     <PackageReference Include="Umbraco.Cms" Version="18.2.0" />
   </ItemGroup>
 
