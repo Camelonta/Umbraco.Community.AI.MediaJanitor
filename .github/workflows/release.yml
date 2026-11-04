@@ -10,21 +10,30 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write # required for NuGet trusted publishing (GitHub OIDC)
 
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v7
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v2
+        uses: actions/setup-dotnet@v6
         with:
           dotnet-version: 10.0.x
 
       - name: Build & Pack
         run: dotnet pack src/AI.MediaJanitor/AI.MediaJanitor.csproj -c Release /p:Version=${{github.ref_name}}
 
+      - name: NuGet login (trusted publishing)
+        uses: NuGet/login@v1
+        id: login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
       - name: Push to NuGet
         shell: bash
         run: |
           shopt -s globstar
-          dotnet nuget push **/*.nupkg --api-key "${{secrets.NUGET_API_KEY}}" --source https://api.nuget.org/v3/index.json --skip-duplicate
+          dotnet nuget push **/*.nupkg --api-key "${{ steps.login.outputs.NUGET_API_KEY }}" --source https://api.nuget.org/v3/index.json --skip-duplicate
