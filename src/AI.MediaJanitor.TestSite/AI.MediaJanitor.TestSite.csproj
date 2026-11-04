@@ -8,21 +8,21 @@
 
   <ItemGroup>
     <PackageReference Include="Clean" Version="8.0.1" />
-    <PackageReference Include="Umbraco.AI" Version="18.5.0" />
-    <PackageReference Include="Umbraco.AI.Agent" Version="18.3.0" />
-    <PackageReference Include="Umbraco.AI.Agent.Copilot" Version="18.1.1" />
-    <PackageReference Include="Umbraco.AI.Anthropic" Version="18.1.2" />
-    <PackageReference Include="Umbraco.AI.Google" Version="18.0.3" />
-    <PackageReference Include="Umbraco.AI.MicrosoftFoundry" Version="18.0.3" />
-    <PackageReference Include="Umbraco.AI.OpenAI" Version="18.3.0" />
-    <PackageReference Include="Umbraco.AI.Prompt" Version="18.3.0" />
-    <PackageReference Include="Umbraco.Cms" Version="18.2.0" />
+    <PackageReference Include="Umbraco.AI" Version="18.7.0" />
+    <PackageReference Include="Umbraco.AI.Agent" Version="18.4.2" />
+    <PackageReference Include="Umbraco.AI.Agent.Copilot" Version="18.2.0" />
+    <PackageReference Include="Umbraco.AI.Anthropic" Version="18.1.4" />
+    <PackageReference Include="Umbraco.AI.Google" Version="18.0.5" />
+    <PackageReference Include="Umbraco.AI.MicrosoftFoundry" Version="18.0.5" />
+    <PackageReference Include="Umbraco.AI.OpenAI" Version="18.3.2" />
+    <PackageReference Include="Umbraco.AI.Prompt" Version="18.4.1" />
+    <PackageReference Include="Umbraco.Cms" Version="18.3.0" />
   </ItemGroup>
 
   <ItemGroup>
     <!-- Opt-in to app-local ICU to ensure consistent globalization APIs across different platforms -->
     <PackageReference Include="Microsoft.ICU.ICU4C.Runtime" Version="72.1.0.3" />
-    <PackageReference Include="uSync" Version="18.1.5" />
+    <PackageReference Include="uSync" Version="18.3.0" />
     <RuntimeHostConfigurationOption Include="System.Globalization.AppLocalIcu" Value="72.1.0.3" Condition="$(RuntimeIdentifier.StartsWith('linux')) or $(RuntimeIdentifier.StartsWith('win')) or ('$(RuntimeIdentifier)' == '' and !$([MSBuild]::IsOSPlatform('osx')))" />
   </ItemGroup>
 
